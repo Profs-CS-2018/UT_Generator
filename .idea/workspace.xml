@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dd0032b1-4db5-4dbb-9686-047122d6aa08" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/UT_Generator_Tool/com/swengGUI/BrowseGUI$1.class" afterPath="$PROJECT_DIR$/out/production/UT_Generator_Tool/com/swengGUI/BrowseGUI$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/UT_Generator_Tool/com/swengGUI/BrowseGUI.class" afterPath="$PROJECT_DIR$/out/production/UT_Generator_Tool/com/swengGUI/BrowseGUI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.form" afterPath="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java" afterPath="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java" />
     </list>
     <ignored path="UT_Generator.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,17 +35,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BrowseGUI.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BrowseGUI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1957">
-              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+            <state relative-caret-position="-1551">
+              <caret line="72" column="28" lean-forward="false" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BrowseGUI.form" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BrowseGUI.form" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.form">
           <provider selected="true" editor-type-id="ui-designer">
             <state />
@@ -74,8 +73,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Hello.java" />
-        <option value="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java" />
         <option value="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.form" />
+        <option value="$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java" />
       </list>
     </option>
   </component>
@@ -85,7 +84,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="952" />
+    <option name="x" value="-8" />
     <option name="width" value="976" />
     <option name="height" value="1038" />
   </component>
@@ -574,7 +573,21 @@
       <option name="project" value="LOCAL" />
       <updated>1508702983170</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added Scroll bars to JList">
+      <created>1508705062970</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1508705062970</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Blue highlight for Browse that appeared at the beginning of startup has been removed.&#10;Added label that says &quot;Output File Save Destination&quot; before the text box for save files">
+      <created>1508940690883</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1508940690883</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -620,7 +633,9 @@
     <MESSAGE value="Hello class updated." />
     <MESSAGE value="BrowseGUI form updated" />
     <MESSAGE value="BrowseGUI updated. Added functionality to Save Button" />
-    <option name="LAST_COMMIT_MESSAGE" value="BrowseGUI updated. Added functionality to Save Button" />
+    <MESSAGE value="Added Scroll bars to JList" />
+    <MESSAGE value="Blue highlight for Browse that appeared at the beginning of startup has been removed.&#10;Added label that says &quot;Output File Save Destination&quot; before the text box for save files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Blue highlight for Browse that appeared at the beginning of startup has been removed.&#10;Added label that says &quot;Output File Save Destination&quot; before the text box for save files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -709,17 +724,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1957">
-          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/swengGUI/BrowseGUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1551">
+          <caret line="72" column="28" lean-forward="false" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

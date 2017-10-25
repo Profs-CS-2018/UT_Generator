@@ -33,7 +33,6 @@ public class BrowseGUI {
     JFileChooser fc1 = new JFileChooser();
 
     public BrowseGUI() {
-        String[] fileNames = new String[50];
         DefaultListModel dm = new DefaultListModel();
         /**
          * Action Listener for the Browse Button
@@ -68,15 +67,13 @@ public class BrowseGUI {
                         File[] files = fc.getSelectedFiles();
                         if (files.length > 1) {
                             for (int i = 0; i < files.length; i++) {
-                                fileNames[i] = files[i].getName();
-                                dm.addElement(files[i].getName());
+                                dm.addElement(files[i].getAbsolutePath());
                             }
                         } else {
-                            fileNames[0] = files[0].getAbsolutePath();
-                            dm.addElement(files[0].getName());
+                            dm.addElement(files[0].getAbsolutePath());
                             //listFiles.setModel(dm);
                         }
-
+                        //dm.addElement(fileNames);
                         listFiles.setModel(dm);
                     } else {
                         JOptionPane.showMessageDialog(mainPanel, "Oops! Operation was cancelled.");
