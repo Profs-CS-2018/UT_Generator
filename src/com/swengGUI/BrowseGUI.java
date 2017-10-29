@@ -26,6 +26,7 @@ public class BrowseGUI {
     private JButton saveButton;
     private JButton btnPreview;
     private JLabel fixedLabel;
+    private JTextArea previewTextArea;
     private JLabel saveFile;
     JFileChooser fc = new JFileChooser();
     JFileChooser fc1 = new JFileChooser();
@@ -85,6 +86,30 @@ public class BrowseGUI {
                         listFiles.setModel(dm);
                     } else {
                         JOptionPane.showMessageDialog(mainPanel, "Oops! Operation was cancelled.");
+                    }
+                }
+            }
+        });
+        btnPreview.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                /**
+                 * The following code checks if the action of clicking the button takes place
+                 * if it does then the user sees the textArea on the Preview tab changed to
+                 * have the preview of the output file in it.
+                 */
+                if (e.getSource() == btnPreview) {
+                    Object returnVal = listFiles.getSelectedValue();
+                    if (returnVal != null) {
+                        /**
+                         * Selected file has its preview generated and a copy placed into
+                         * the textArea on the Preview tab.
+                         */
+
+                    } else {
+                        JOptionPane.showMessageDialog(mainPanel, "No files selected for preview.");
                     }
                 }
             }
