@@ -1,4 +1,6 @@
 package com.swengGUI;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import javax.swing.*;
@@ -10,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 public class BrowseGUI {
 
@@ -55,10 +60,12 @@ public class BrowseGUI {
                  * The following code adds filter to the file extensions.
                  */
 
+                //for searching the files, filters which files appear in the box
                 fc.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
                 fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
 
+                //extensions for the save files
                 fc1.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc1.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
                 fc1.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
@@ -128,11 +135,17 @@ public class BrowseGUI {
                     String sCurrentLine;
                     ArrayList<String> fileContent = new ArrayList<>();
 
+                    previewTextArea.read(br, null);
 
                     while((sCurrentLine = br.readLine())!= null){
                         System.out.println(sCurrentLine);
                         fileContent.add(sCurrentLine);
                     }
+
+                    for(String filePath : fileContent){
+                        previewTextArea.append(filePath+"\n");
+                    }
+
 
                     //new window. modify later
                     JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane. INFORMATION_MESSAGE);
@@ -144,6 +157,65 @@ public class BrowseGUI {
                 }
             }
         });
+
+        //This connects to the textArea1 box we were talking about. You may have to add a textArea into the
+        // GUI form in order for this to take effect
+        previewTextArea.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //toggles between read only and editable
+                if(SwingUtilities.isRightMouseButton(e)){
+                    previewTextArea.setEditable(true);
+                }
+                if(SwingUtilities.isLeftMouseButton(e)){
+                    previewTextArea.setEditable(false);
+                    Scanner sc = new Scanner(previewTextArea.getText());
+                    ArrayList<String> txt = new ArrayList<>();
+                    //int count = 0;
+                    //String[] nest = textArea1.split("\n");
+
+                    for(String str : previewTextArea.getText().split("\n")){
+                        //System.out.println(str);
+                        txt.add(str);
+                        //count++;
+                    }
+
+                    //System.out.println(txt);
+
+                    //Detects if the textArea has duplicate, but doesn't state which files were duplicates
+                    Set<String> set = new HashSet<String>(txt);
+                    if(set.size() < txt.size()){
+                        //System.out.println("ERROR");
+                        JOptionPane.showMessageDialog(null,
+                                "WARNING: Multiple files of the same name have been selected",
+                                "Double File Exception",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+            //These are needed for the MouseListener, otherwise gives errors
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
