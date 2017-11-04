@@ -1,10 +1,14 @@
 package com.swengGUI;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
@@ -26,6 +30,8 @@ public class BrowseGUI {
     private JButton btnPreview;
     private JLabel fixedLabel;
     private JTextArea previewTextArea;
+    private JTextField textField1;
+    private JButton addFilesButton;
     private JLabel saveFile;
     JFileChooser fc = new JFileChooser();
     JFileChooser fc1 = new JFileChooser();
@@ -34,6 +40,7 @@ public class BrowseGUI {
         DefaultListModel dm = new DefaultListModel();
         fixedLabel = new JLabel("Output Save Destination");
         fixedLabel.setLabelFor(textFieldSave);
+        listFiles.setModel(dm);
         /**
          * Action Listener for the Browse Button
          * On being clicked the Browse button opens up a file browser which can be used to
@@ -57,12 +64,9 @@ public class BrowseGUI {
 
                 fc.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
-                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-
-                fc1.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
-                fc1.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
-                fc1.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-
+                fc.setFileFilter(new FileNameExtensionFilter("CPP(.cpp)","cpp"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp) and (.h)", "cpp", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)(.h) and Text Files(.txt)", "cpp", "txt", "h"));
 
                 /**
                  * The following code checks if the action of clicking the button takes place
@@ -83,7 +87,7 @@ public class BrowseGUI {
                             //listFiles.setModel(dm);
                         }
                         //dm.addElement(fileNames);
-                        listFiles.setModel(dm);
+                       // listFiles.setModel(dm);
                     } else {
                         JOptionPane.showMessageDialog(mainPanel, "Oops! Operation was cancelled.");
                     }
@@ -129,17 +133,14 @@ public class BrowseGUI {
                     ArrayList<String> fileContent = new ArrayList<>();
 
 
-                    while((sCurrentLine = br.readLine())!= null){
+                    while ((sCurrentLine = br.readLine()) != null) {
                         System.out.println(sCurrentLine);
                         fileContent.add(sCurrentLine);
                     }
 
                     //new window. modify later
-                    JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane. INFORMATION_MESSAGE);
-
-                }
-                catch (Exception e1)
-                {
+                    JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, e1.getMessage());
                 }
             }
@@ -154,13 +155,12 @@ public class BrowseGUI {
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fc1.getSelectedFile();
                         textFieldSave.setText(file.getAbsolutePath());
-                        try{
+                        try {
                             FileWriter newFile = new FileWriter(file.getPath());
                             //fw.write(content);
                             //fw.flush();
                             //fw.close();
-                        }
-                        catch(Exception e1) {
+                        } catch (Exception e1) {
                             JOptionPane.showMessageDialog(null, e1.getMessage());
                         }
                     }
@@ -180,9 +180,8 @@ public class BrowseGUI {
             public void actionPerformed(ActionEvent e) {
 
                 try { //begin the middle end attempt to parse and make files
-                        throw new Exception();
-                }
-                catch (Exception e1) //catch any error which happens to have resulted in generation failure
+                    throw new Exception();
+                } catch (Exception e1) //catch any error which happens to have resulted in generation failure
                 {
                     JOptionPane.showMessageDialog(null, "ERROR: See Error Information Tab " +
                             "for details");
@@ -190,31 +189,50 @@ public class BrowseGUI {
                     String errors = "Errors";
 
                     //check if ERRORS tab exists. Create if it does not.
-                    if(tabbedPane.indexOfTab(errors) == -1) {
+                    if (tabbedPane.indexOfTab(errors) == -1) {
                         tabbedPane.add(errors, new JScrollPane(new JList<>()));
                     }
 
-                        //populate the list of errors. make the text red?
+                    //populate the list of errors. make the text red?
 
-                        //set ERROR tab as currently selected tab
+                    //set ERROR tab as currently selected tab
                     tabbedPane.getModel().setSelectedIndex(tabbedPane.indexOfTab(errors));
-
 
 
                 }
             }
         });
+        addFilesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == addFilesButton)
+                {
+                    File addedFile = new File(textField1.getText());
+                    boolean fileExists = addedFile.exists();
+                    if(fileExists) {
+                        dm.addElement(addedFile.getAbsolutePath());
+                    }
+                    else
+                    {
+                        int input = JOptionPane.showOptionDialog(null, "File Not Found", "Error Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+                        if(input == JOptionPane.OK_OPTION){
+                            textField1.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
     }
-    public static void main (String[] args)
-    {
+
+    public static void main(String[] args) {
         JFrame frame = new JFrame("Unit Test Generator Tool");
         /**
          * Changes the default theme of JFileChooser
          */
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         frame.setContentPane(new BrowseGUI().mainPanel);
