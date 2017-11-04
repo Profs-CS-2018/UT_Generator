@@ -32,6 +32,8 @@ public class BrowseGUI {
     private JLabel fixedLabel;
     private JTextArea previewTextArea;
     private JLabel saveFile;
+    private JTextField textField1;
+    private JButton addFilesButton;
     JFileChooser fc = new JFileChooser();
     JFileChooser fc1 = new JFileChooser();
 
@@ -64,12 +66,8 @@ public class BrowseGUI {
                 fc.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
                 fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-
-                //extensions for the save files
-                fc1.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
-                fc1.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
-                fc1.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp) and (.h)", "cpp", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)(.h) and Text Files(.txt)", "cpp", "txt", "h"));
 
                 /**
                  * The following code checks if the action of clicking the button takes place
@@ -273,6 +271,26 @@ public class BrowseGUI {
 
 
 
+                }
+            }
+        });
+        addFilesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == addFilesButton)
+                {
+                    File addedFile = new File(textField1.getText());
+                    boolean fileExists = addedFile.exists();
+                    if(fileExists) {
+                        dm.addElement(addedFile.getAbsolutePath());
+                    }
+                    else
+                    {
+                        int input = JOptionPane.showOptionDialog(null, "File Not Found", "Error Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+                        if(input == JOptionPane.OK_OPTION){
+                            textField1.setText("");
+                        }
+                    }
                 }
             }
         });
