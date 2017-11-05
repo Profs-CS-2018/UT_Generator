@@ -1,4 +1,6 @@
 package com.swengGUI;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import javax.swing.*;
@@ -10,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 public class BrowseGUI {
 
@@ -19,8 +24,7 @@ public class BrowseGUI {
     private JPanel mainPanel;
     private JTextField textFieldSave;
     private JButton browseButton;
-    private JTabbedPane tabbedPane1;
-    private JTabbedPane tabbedPane2;
+    private JTabbedPane tabbedPane;
     private JButton submitButton;
     private JList listFiles;
     private JButton saveButton;
@@ -28,6 +32,8 @@ public class BrowseGUI {
     private JLabel fixedLabel;
     private JTextArea previewTextArea;
     private JLabel saveFile;
+    private JTextField textField1;
+    private JButton addFilesButton;
     JFileChooser fc = new JFileChooser();
     JFileChooser fc1 = new JFileChooser();
 
@@ -56,14 +62,12 @@ public class BrowseGUI {
                  * The following code adds filter to the file extensions.
                  */
 
+                //for searching the files, filters which files appear in the box
                 fc.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
                 fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-
-                fc1.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
-                fc1.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
-                fc1.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp) and (.h)", "cpp", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)(.h) and Text Files(.txt)", "cpp", "txt", "h"));
 
                 /**
                  * The following code checks if the action of clicking the button takes place
@@ -73,10 +77,11 @@ public class BrowseGUI {
                 if (e.getSource() == browseButton) {
                     int returnVal = fc.showOpenDialog(mainPanel);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        File[] files = fc.getSelectedFiles();
+                        File[] files = fc.getSelectedFiles(); // the selected files from browse
                         if (files.length > 1) {
                             for (int i = 0; i < files.length; i++) {
-                                dm.addElement(files[i].getAbsolutePath());
+                                dm.addElement(files[i].getAbsolutePath()); //add path into the JPanel
+
                             }
                         } else {
                             dm.addElement(files[0].getAbsolutePath());
@@ -128,12 +133,19 @@ public class BrowseGUI {
                     String sCurrentLine;
                     ArrayList<String> fileContent = new ArrayList<>();
 
+                    previewTextArea.read(br, null);
 
                     while((sCurrentLine = br.readLine())!= null){
                         System.out.println(sCurrentLine);
                         fileContent.add(sCurrentLine);
                     }
 
+                    for(String filePath : fileContent){
+                        previewTextArea.append(filePath+"\n");
+                    }
+
+
+                    //new window. modify later
                     JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane. INFORMATION_MESSAGE);
 
                 }
@@ -143,6 +155,65 @@ public class BrowseGUI {
                 }
             }
         });
+
+        //This connects to the textArea1 box we were talking about. You may have to add a textArea into the
+        // GUI form in order for this to take effect
+        previewTextArea.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //toggles between read only and editable
+                if(SwingUtilities.isRightMouseButton(e)){
+                    previewTextArea.setEditable(true);
+                }
+                if(SwingUtilities.isLeftMouseButton(e)){
+                    previewTextArea.setEditable(false);
+                    Scanner sc = new Scanner(previewTextArea.getText());
+                    ArrayList<String> txt = new ArrayList<>();
+                    //int count = 0;
+                    //String[] nest = textArea1.split("\n");
+
+                    for(String str : previewTextArea.getText().split("\n")){
+                        //System.out.println(str);
+                        txt.add(str);
+                        //count++;
+                    }
+
+                    //System.out.println(txt);
+
+                    //Detects if the textArea has duplicate, but doesn't state which files were duplicates
+                    Set<String> set = new HashSet<String>(txt);
+                    if(set.size() < txt.size()){
+                        //System.out.println("ERROR");
+                        JOptionPane.showMessageDialog(null,
+                                "WARNING: Multiple files of the same name have been selected",
+                                "Double File Exception",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+            //These are needed for the MouseListener, otherwise gives errors
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,6 +232,63 @@ public class BrowseGUI {
                         }
                         catch(Exception e1) {
                             JOptionPane.showMessageDialog(null, e1.getMessage());
+                        }
+                    }
+                }
+            }
+        });
+
+
+        /*
+        Submit button begins the process of generating the makefile, test fixtures, etc.
+        If the files could not be fully generated, a dialogue box pops up informing the user of the failure.
+        It redirects to a tab containing the error information.
+
+         */
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try { //begin the middle end attempt to parse and make files
+                        throw new Exception();
+                }
+                catch (Exception e1) //catch any error which happens to have resulted in generation failure
+                {
+                    JOptionPane.showMessageDialog(null, "ERROR: See Error Information Tab " +
+                            "for details");
+                    //clicking OK redirects you to a tabbed pane labelled ERRORS
+                    String errors = "Errors";
+
+                    //check if ERRORS tab exists. Create if it does not.
+                    if(tabbedPane.indexOfTab(errors) == -1) {
+                        tabbedPane.add(errors, new JScrollPane(new JList<>()));
+                    }
+
+                        //populate the list of errors. make the text red?
+
+                        //set ERROR tab as currently selected tab
+                    tabbedPane.getModel().setSelectedIndex(tabbedPane.indexOfTab(errors));
+
+
+
+                }
+            }
+        });
+        addFilesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == addFilesButton)
+                {
+                    File addedFile = new File(textField1.getText());
+                    boolean fileExists = addedFile.exists();
+                    if(fileExists) {
+                        dm.addElement(addedFile.getAbsolutePath());
+                    }
+                    else
+                    {
+                        int input = JOptionPane.showOptionDialog(null, "File Not Found", "Error Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+                        if(input == JOptionPane.OK_OPTION){
+                            textField1.setText("");
                         }
                     }
                 }
