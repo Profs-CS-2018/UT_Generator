@@ -1,4 +1,5 @@
 package com.swengGUI;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -34,6 +35,10 @@ public class BrowseGUI {
     private JLabel saveFile;
     private JTextField textField1;
     private JButton addFilesButton;
+    private JCheckBox allFilesCheckBox;
+    private JCheckBox makeFileCheckBox;
+    private JCheckBox testFixtureCheckBox;
+    private JCheckBox unitTestCheckBox;
     JFileChooser fc = new JFileChooser();
     JFileChooser fc1 = new JFileChooser();
 
@@ -66,8 +71,8 @@ public class BrowseGUI {
                 fc.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
                 fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp) and (.h)", "cpp", "h"));
-                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)(.h) and Text Files(.txt)", "cpp", "txt", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp, .h)", "cpp", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp, .h) and Text Files(.txt)", "cpp", "txt", "h"));
 
                 /**
                  * The following code checks if the action of clicking the button takes place
@@ -95,6 +100,7 @@ public class BrowseGUI {
                 }
             }
         });
+
         btnPreview.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,6 +125,7 @@ public class BrowseGUI {
                 }
             }
         });
+
         /**
          * Action Listener for the file selected from the JList
          * Upon selection file should open in another window.
@@ -294,7 +301,68 @@ public class BrowseGUI {
                 }
             }
         });
+
+
+        /**
+         * The following four ActionListener listener methods are to ensure
+         * proper checkbox functionality; set the proper dependencies.
+         */
+        allFilesCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == allFilesCheckBox) {
+                    // Turn on all checkboxes if Select All is on
+                    if (allFilesCheckBox.isSelected()) {
+                        makeFileCheckBox.setSelected(true);
+                        testFixtureCheckBox.setSelected(true);
+                        unitTestCheckBox.setSelected(true);
+                    }
+
+                    // If Select All is turned off, turn off all other checkboxes
+                    else {
+                        makeFileCheckBox.setSelected(false);
+                        testFixtureCheckBox.setSelected(false);
+                        unitTestCheckBox.setSelected(false);
+                    }
+                }
+            }
+        });
+
+        makeFileCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == makeFileCheckBox) {
+                    if (!makeFileCheckBox.isSelected()) {
+                        allFilesCheckBox.setSelected(false);
+                    }
+                }
+            }
+        });
+
+        testFixtureCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == testFixtureCheckBox) {
+                    if (!testFixtureCheckBox.isSelected()) {
+                        allFilesCheckBox.setSelected(false);
+                    }
+                }
+            }
+        });
+
+        unitTestCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == unitTestCheckBox) {
+                    if (!unitTestCheckBox.isSelected()) {
+                        allFilesCheckBox.setSelected(false);
+                    }
+                }
+            }
+        });
+
     }
+
     public static void main (String[] args)
     {
         JFrame frame = new JFrame("Unit Test Generator Tool");
@@ -313,6 +381,4 @@ public class BrowseGUI {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null); //this should center the app
     }
-
-
 }
