@@ -1,4 +1,6 @@
 import com.swengGUI.BrowseGUI;
+import com.swengGUI.OutputGenerator;
+
 import javax.swing.*;
 
 /**
@@ -18,6 +20,7 @@ public class Main {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+
         frame.setContentPane(new BrowseGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

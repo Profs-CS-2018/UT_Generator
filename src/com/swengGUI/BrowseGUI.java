@@ -46,6 +46,8 @@ public class BrowseGUI {
         DefaultListModel dm = new DefaultListModel();
         fixedLabel = new JLabel("Output Save Destination");
         fixedLabel.setLabelFor(textFieldSave);
+        OutputGenerator outputGen = new OutputGenerator();
+        //com.swengGUI.OutputGenerator outputGen = new com.swengGUI.OutputGenerator();
         /**
          * Action Listener for the Browse Button
          * On being clicked the Browse button opens up a file browser which can be used to
@@ -253,7 +255,7 @@ public class BrowseGUI {
             public void actionPerformed(ActionEvent e) {
                 try { //begin the middle end attempt to parse and make files
                     if (makeFileCheckBox.isSelected()) {
-                        //outputGen.writeMakeFile();
+                        outputGen.writeMakeFile();
                         System.out.println("make file amde");
                     } else {
                         System.out.println("Nothing selected to generate.");
@@ -358,7 +360,7 @@ public class BrowseGUI {
 
    /** public static void main(String[] args) {
         JFrame frame = new JFrame("Unit Test Generator Tool");
-        OutputGenerator output_gen = new OutputGenerator();
+        com.swengGUI.OutputGenerator output_gen = new com.swengGUI.OutputGenerator();
         /*
          * Changes the default theme of JFileChooser
         end comment here
