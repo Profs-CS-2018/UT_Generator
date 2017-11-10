@@ -247,13 +247,13 @@ public class BrowseGUI {
         Submit button begins the process of generating the makefile, test fixtures, etc.
         If the files could not be fully generated, a dialogue box pops up informing the user of the failure.
         It redirects to a tab containing the error information.
-
          */
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try { //begin the middle end attempt to parse and make files
                     if (makeFileCheckBox.isSelected()) {
+                        //outputGen.writeMakeFile();
                         System.out.println("make file amde");
                     } else {
                         System.out.println("Nothing selected to generate.");

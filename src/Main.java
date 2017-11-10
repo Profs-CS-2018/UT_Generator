@@ -2,14 +2,14 @@ import com.swengGUI.BrowseGUI;
 import javax.swing.*;
 
 /**
- * Created by Tom Soistmann on 11/10/2017.
+ * Main.java
  */
 public class Main {
 
     public static void main(String[] args) {
+        OutputGenerator outputGen = new OutputGenerator();
         BrowseGUI bg = new BrowseGUI();
         JFrame frame = new JFrame("Unit Test Generator Tool");
-        OutputGenerator output_gen = new OutputGenerator();
         /**
          * Changes the default theme of JFileChooser
          */
