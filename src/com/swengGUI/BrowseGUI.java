@@ -1,4 +1,5 @@
 package com.swengGUI;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,7 +23,7 @@ public class BrowseGUI {
     /**
      * Declaring GUI components below
      */
-    private JPanel mainPanel;
+    public JPanel mainPanel;
     private JTextField textFieldSave;
     private JButton browseButton;
     private JTabbedPane tabbedPane;
@@ -142,22 +143,20 @@ public class BrowseGUI {
 
                     previewTextArea.read(br, null);
 
-                    while((sCurrentLine = br.readLine())!= null){
+                    while ((sCurrentLine = br.readLine()) != null) {
                         System.out.println(sCurrentLine);
                         fileContent.add(sCurrentLine);
                     }
 
-                    for(String filePath : fileContent){
-                        previewTextArea.append(filePath+"\n");
+                    for (String filePath : fileContent) {
+                        previewTextArea.append(filePath + "\n");
                     }
 
 
                     //new window. modify later
-                    JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane. INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane.INFORMATION_MESSAGE);
 
-                }
-                catch (Exception e1)
-                {
+                } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, e1.getMessage());
                 }
             }
@@ -165,21 +164,21 @@ public class BrowseGUI {
 
         //This connects to the textArea1 box we were talking about. You may have to add a textArea into the
         // GUI form in order for this to take effect
-        previewTextArea.addMouseListener(new MouseListener(){
+        previewTextArea.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //toggles between read only and editable
-                if(SwingUtilities.isRightMouseButton(e)){
+                if (SwingUtilities.isRightMouseButton(e)) {
                     previewTextArea.setEditable(true);
                 }
-                if(SwingUtilities.isLeftMouseButton(e)){
+                if (SwingUtilities.isLeftMouseButton(e)) {
                     previewTextArea.setEditable(false);
                     Scanner sc = new Scanner(previewTextArea.getText());
                     ArrayList<String> txt = new ArrayList<>();
                     //int count = 0;
                     //String[] nest = textArea1.split("\n");
 
-                    for(String str : previewTextArea.getText().split("\n")){
+                    for (String str : previewTextArea.getText().split("\n")) {
                         //System.out.println(str);
                         txt.add(str);
                         //count++;
@@ -189,7 +188,7 @@ public class BrowseGUI {
 
                     //Detects if the textArea has duplicate, but doesn't state which files were duplicates
                     Set<String> set = new HashSet<String>(txt);
-                    if(set.size() < txt.size()){
+                    if (set.size() < txt.size()) {
                         //System.out.println("ERROR");
                         JOptionPane.showMessageDialog(null,
                                 "WARNING: Multiple files of the same name have been selected",
@@ -231,13 +230,12 @@ public class BrowseGUI {
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fc1.getSelectedFile();
                         textFieldSave.setText(file.getAbsolutePath());
-                        try{
+                        try {
                             FileWriter newFile = new FileWriter(file.getPath());
                             //fw.write(content);
                             //fw.flush();
                             //fw.close();
-                        }
-                        catch(Exception e1) {
+                        } catch (Exception e1) {
                             JOptionPane.showMessageDialog(null, e1.getMessage());
                         }
                     }
@@ -255,11 +253,13 @@ public class BrowseGUI {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 try { //begin the middle end attempt to parse and make files
-                        throw new Exception();
-                }
-                catch (Exception e1) //catch any error which happens to have resulted in generation failure
+                    if (makeFileCheckBox.isSelected()) {
+                        System.out.println("make file amde");
+                    } else {
+                        System.out.println("Nothing selected to generate.");
+                    }
+                } catch (Exception e1) //catch any error which happens to have resulted in generation failure
                 {
                     JOptionPane.showMessageDialog(null, "ERROR: See Error Information Tab " +
                             "for details");
@@ -267,34 +267,28 @@ public class BrowseGUI {
                     String errors = "Errors";
 
                     //check if ERRORS tab exists. Create if it does not.
-                    if(tabbedPane.indexOfTab(errors) == -1) {
+                    if (tabbedPane.indexOfTab(errors) == -1) {
                         tabbedPane.add(errors, new JScrollPane(new JList<>()));
                     }
 
-                        //populate the list of errors. make the text red?
-
-                        //set ERROR tab as currently selected tab
+                    //populate the list of errors. make the text red?
+                    //set ERROR tab as currently selected tab
                     tabbedPane.getModel().setSelectedIndex(tabbedPane.indexOfTab(errors));
-
-
-
                 }
             }
         });
+
         addFilesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == addFilesButton)
-                {
+                if (e.getSource() == addFilesButton) {
                     File addedFile = new File(textField1.getText());
                     boolean fileExists = addedFile.exists();
-                    if(fileExists) {
+                    if (fileExists) {
                         dm.addElement(addedFile.getAbsolutePath());
-                    }
-                    else
-                    {
+                    } else {
                         int input = JOptionPane.showOptionDialog(null, "File Not Found", "Error Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
-                        if(input == JOptionPane.OK_OPTION){
+                        if (input == JOptionPane.OK_OPTION) {
                             textField1.setText("");
                         }
                     }
@@ -363,16 +357,14 @@ public class BrowseGUI {
 
     }
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         JFrame frame = new JFrame("Unit Test Generator Tool");
         /**
          * Changes the default theme of JFileChooser
          */
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         frame.setContentPane(new BrowseGUI().mainPanel);
