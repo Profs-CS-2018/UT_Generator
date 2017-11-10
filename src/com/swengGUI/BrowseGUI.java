@@ -1,6 +1,5 @@
 package com.swengGUI;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -357,11 +356,12 @@ public class BrowseGUI {
 
     }
 
-    public static void main(String[] args) {
+   /** public static void main(String[] args) {
         JFrame frame = new JFrame("Unit Test Generator Tool");
-        /**
+        OutputGenerator output_gen = new OutputGenerator();
+        /*
          * Changes the default theme of JFileChooser
-         */
+        end comment here
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -372,5 +372,5 @@ public class BrowseGUI {
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null); //this should center the app
-    }
+    } */
 }
