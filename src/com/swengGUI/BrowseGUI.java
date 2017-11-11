@@ -1,8 +1,6 @@
 package com.swengGUI;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.File;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -10,7 +8,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,31 +20,35 @@ public class BrowseGUI {
      * Declaring GUI components below
      */
     public JPanel mainPanel;
-    private JTextField textFieldSave;
-    private JButton browseButton;
-    private JTabbedPane tabbedPane;
-    private JButton submitButton;
-    private JList listFiles;
-    private JButton saveButton;
-    private JButton btnPreview;
-    private JLabel fixedLabel;
-    private JTextArea previewTextArea;
-    private JLabel saveFile;
-    private JTextField textField1;
-    private JButton addFilesButton;
-    private JCheckBox allFilesCheckBox;
-    private JCheckBox makeFileCheckBox;
-    private JCheckBox testFixtureCheckBox;
-    private JCheckBox unitTestCheckBox;
-    JFileChooser fc = new JFileChooser();
-    JFileChooser fc1 = new JFileChooser();
+    public JTextField textFieldSave;
+    public JButton browseButton;
+    public JTabbedPane tabbedPane;
+    public JButton submitButton;
+    public JList listFiles;
+    public JButton saveButton;
+    public JButton btnPreview;
+    public JLabel fixedLabel;
+    public JTextArea previewTextArea;
+    public JLabel saveFile;
+    public JTextField txtFldDirNm;
+    public JButton addFilesButton;
+    public JCheckBox allFilesCheckBox;
+    public JCheckBox makeFileCheckBox;
+    public JCheckBox testFixtureCheckBox;
+    public JCheckBox unitTestCheckBox;
+    private JTextField txtFldFileNm;
+    JFileChooser fc = new JFileChooser(); // for Browse button
+    JFileChooser fc1 = new JFileChooser();// for Save button
+    JFileChooser fc2 = new JFileChooser();// for Add Files button( case : not file name is entered)
+    JFileChooser fc3 = new JFileChooser(); // for Add Files button( case : file name is entered and we want the browser to open with the file selected)
+
 
     public BrowseGUI() {
+
         DefaultListModel dm = new DefaultListModel();
         fixedLabel = new JLabel("Output Save Destination");
         fixedLabel.setLabelFor(textFieldSave);
-        OutputGenerator outputGen = new OutputGenerator();
-        //com.swengGUI.OutputGenerator outputGen = new com.swengGUI.OutputGenerator();
+        listFiles.setModel(dm);
         /**
          * Action Listener for the Browse Button
          * On being clicked the Browse button opens up a file browser which can be used to
@@ -64,7 +65,7 @@ public class BrowseGUI {
                 /**
                  *The following line of code can be used to open the file search in a particular directory
                  * */
-                fc.setCurrentDirectory(new File("C:\\Users\\aanch\\Desktop\\Fall 2017"));
+                fc.setCurrentDirectory(new File("C:\\Users\\aanch\\Desktop\\Fall 2017\\SE-WI"));
                 /**
                  * The following code adds filter to the file extensions.
                  */
@@ -73,8 +74,8 @@ public class BrowseGUI {
                 fc.setFileFilter(new FileNameExtensionFilter("Text Files(.txt)", "txt"));
                 fc.setFileFilter(new FileNameExtensionFilter("Java(.java)", "java"));
                 fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)", "cpp"));
-                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp, .h)", "cpp", "h"));
-                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp, .h) and Text Files(.txt)", "cpp", "txt", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp) and (.h)", "cpp", "h"));
+                fc.setFileFilter(new FileNameExtensionFilter("C++(.cpp)(.h) and Text Files(.txt)", "cpp", "txt", "h"));
 
                 /**
                  * The following code checks if the action of clicking the button takes place
@@ -95,14 +96,13 @@ public class BrowseGUI {
                             //listFiles.setModel(dm);
                         }
                         //dm.addElement(fileNames);
-                        listFiles.setModel(dm);
+
                     } else {
                         JOptionPane.showMessageDialog(mainPanel, "Oops! Operation was cancelled.");
                     }
                 }
             }
         });
-
         btnPreview.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,7 +127,6 @@ public class BrowseGUI {
                 }
             }
         });
-
         /**
          * Action Listener for the file selected from the JList
          * Upon selection file should open in another window.
@@ -136,50 +135,26 @@ public class BrowseGUI {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
-                try {
-                    FileReader fr = new FileReader(listFiles.getSelectedValue().toString());
-                    BufferedReader br = new BufferedReader(fr);
-                    String sCurrentLine;
-                    ArrayList<String> fileContent = new ArrayList<>();
-
-                    previewTextArea.read(br, null);
-
-                    while ((sCurrentLine = br.readLine()) != null) {
-                        System.out.println(sCurrentLine);
-                        fileContent.add(sCurrentLine);
-                    }
-
-                    for (String filePath : fileContent) {
-                        previewTextArea.append(filePath + "\n");
-                    }
-
-
-                    //new window. modify later
-                    JOptionPane.showMessageDialog(mainPanel, fileContent.get(0), "File Content", JOptionPane.INFORMATION_MESSAGE);
-
-                } catch (Exception e1) {
-                    JOptionPane.showMessageDialog(null, e1.getMessage());
-                }
             }
         });
 
         //This connects to the textArea1 box we were talking about. You may have to add a textArea into the
         // GUI form in order for this to take effect
-        previewTextArea.addMouseListener(new MouseListener() {
+        previewTextArea.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 //toggles between read only and editable
-                if (SwingUtilities.isRightMouseButton(e)) {
+                if(SwingUtilities.isRightMouseButton(e)){
                     previewTextArea.setEditable(true);
                 }
-                if (SwingUtilities.isLeftMouseButton(e)) {
+                if(SwingUtilities.isLeftMouseButton(e)){
                     previewTextArea.setEditable(false);
                     Scanner sc = new Scanner(previewTextArea.getText());
                     ArrayList<String> txt = new ArrayList<>();
                     //int count = 0;
                     //String[] nest = textArea1.split("\n");
 
-                    for (String str : previewTextArea.getText().split("\n")) {
+                    for(String str : previewTextArea.getText().split("\n")){
                         //System.out.println(str);
                         txt.add(str);
                         //count++;
@@ -189,7 +164,7 @@ public class BrowseGUI {
 
                     //Detects if the textArea has duplicate, but doesn't state which files were duplicates
                     Set<String> set = new HashSet<String>(txt);
-                    if (set.size() < txt.size()) {
+                    if(set.size() < txt.size()){
                         //System.out.println("ERROR");
                         JOptionPane.showMessageDialog(null,
                                 "WARNING: Multiple files of the same name have been selected",
@@ -231,12 +206,13 @@ public class BrowseGUI {
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fc1.getSelectedFile();
                         textFieldSave.setText(file.getAbsolutePath());
-                        try {
+                        try{
                             FileWriter newFile = new FileWriter(file.getPath());
                             //fw.write(content);
                             //fw.flush();
                             //fw.close();
-                        } catch (Exception e1) {
+                        }
+                        catch(Exception e1) {
                             JOptionPane.showMessageDialog(null, e1.getMessage());
                         }
                     }
@@ -249,18 +225,16 @@ public class BrowseGUI {
         Submit button begins the process of generating the makefile, test fixtures, etc.
         If the files could not be fully generated, a dialogue box pops up informing the user of the failure.
         It redirects to a tab containing the error information.
+
          */
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 try { //begin the middle end attempt to parse and make files
-                    if (makeFileCheckBox.isSelected()) {
-                        outputGen.writeMakeFile();
-                        System.out.println("make file amde");
-                    } else {
-                        System.out.println("Nothing selected to generate.");
-                    }
-                } catch (Exception e1) //catch any error which happens to have resulted in generation failure
+                        throw new Exception();
+                }
+                catch (Exception e1) //catch any error which happens to have resulted in generation failure
                 {
                     JOptionPane.showMessageDialog(null, "ERROR: See Error Information Tab " +
                             "for details");
@@ -268,105 +242,130 @@ public class BrowseGUI {
                     String errors = "Errors";
 
                     //check if ERRORS tab exists. Create if it does not.
-                    if (tabbedPane.indexOfTab(errors) == -1) {
+                    if(tabbedPane.indexOfTab(errors) == -1) {
                         tabbedPane.add(errors, new JScrollPane(new JList<>()));
                     }
 
-                    //populate the list of errors. make the text red?
-                    //set ERROR tab as currently selected tab
+                        //populate the list of errors. make the text red?
+
+                        //set ERROR tab as currently selected tab
                     tabbedPane.getModel().setSelectedIndex(tabbedPane.indexOfTab(errors));
+
+
+
                 }
             }
         });
-
+        /**
+         * @Aanchal Chaturvedi
+         * The add file button works based on the two text fields
+         *  1. File name
+         *  2. Directory name
+         * Entering a directory name is MUST. (otherwise it would be like creating something similar to Browse)
+         * If user does not add directory name or adds an incorrect directory name Error pops up saying they have to enter a valid directory name.
+         * Once the user enters a valid directory name, they can either enter a file name or not
+         * Case 1: user enters a file name
+         * File chooser opens with the selected file in the open field.
+         * Upon hitting approve the code checks of the duplicate of file selected already exists in Jfile.
+         * Yes duplicate exists: error pops up saying “duplicate file exits”
+         * Duplicate in the Jlist gets highlighted
+         * Case 2: user does not enter a file name
+         * File chooser opens with selected directory. User chooses a file from the directory.
+         * Upon hitting open the code checks for duplicate and does the same as previously mentioned
+         */
         addFilesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == addFilesButton) {
-                    File addedFile = new File(textField1.getText());
-                    boolean fileExists = addedFile.exists();
-                    if (fileExists) {
-                        dm.addElement(addedFile.getAbsolutePath());
-                    } else {
-                        int input = JOptionPane.showOptionDialog(null, "File Not Found", "Error Message", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
-                        if (input == JOptionPane.OK_OPTION) {
-                            textField1.setText("");
-                        }
-                    }
+                String fileNm = txtFldFileNm.getText();
+                String dirNm = txtFldDirNm.getText();
+                String directoryName = dirNm.replace("\\", "\\\\");
+                File directory = new File(directoryName);
+                if(e.getSource() == addFilesButton)
+                {
+                    /**
+                     * Checks if directory does not exists or the directory text field is empty
+                     */
+                    if(dirNm.isEmpty() || !directory.exists())
+                   {
+                       JOptionPane.showMessageDialog(null, "Please enter valid directory name");
+                   }
+                    /**
+                     * In case directory entered exists user can either
+                     * 1. Enter a file name
+                     * 2. Not enter a file name
+                     *
+                     */
+                   else {
+                       String absolutePath = dirNm + "\\" + fileNm;
+                        /**
+                         * Case 1: user does not enter file name
+                         *
+                         */
+                       if (fileNm.isEmpty()){
+                           fc2.setCurrentDirectory(new File(directoryName));
+                           System.out.println(directoryName);
+                           int returnVal = fc2.showOpenDialog(mainPanel);
+                            if(returnVal == JFileChooser.APPROVE_OPTION)
+                            {
+                                if(dm.isEmpty())
+                                {
+                                    dm.addElement(fc2.getSelectedFile().getAbsolutePath());
+                                }
+                                else
+                                {
+                                    System.out.println(dm.contains(fc2.getSelectedFile().getAbsolutePath()));
+                                    if(dm.contains(fc2.getSelectedFile().getAbsolutePath())) {
+                                        JOptionPane.showMessageDialog(null, "Duplicate exists");
+                                        listFiles.setSelectedIndex(dm.indexOf(fc2.getSelectedFile().getAbsolutePath()));
+                                    }
+                                    else {
+                                        dm.addElement(fc2.getSelectedFile().getAbsolutePath());
+                                    }
+                                }
+
+                            }
+                       }
+                       /**
+                        * Case 2: user enters file name
+                        */
+                       else {
+                           fc3.setSelectedFile(new File(absolutePath));
+                           int returnVal1 = fc3.showOpenDialog(mainPanel);
+                           if(returnVal1 == JFileChooser.APPROVE_OPTION)
+                           {
+                               if(dm.isEmpty())
+                               {
+                                   dm.addElement(fc3.getSelectedFile().getAbsolutePath());
+                               }
+                               else
+                               {
+                                   System.out.println(dm.contains(fc3.getSelectedFile().getAbsolutePath()));
+                                   if(dm.contains(fc3.getSelectedFile().getAbsolutePath())) {
+                                       JOptionPane.showMessageDialog(null, "Duplicate exists");
+                                       listFiles.setSelectedIndex(dm.indexOf(fc3.getSelectedFile().getAbsolutePath()));
+                                   }
+                                   else {
+                                       dm.addElement(fc3.getSelectedFile().getAbsolutePath());
+                                   }
+                               }
+                           }
+                       }
+                   }
                 }
             }
         });
-
-
-        /**
-         * The following four ActionListener listener methods are to ensure
-         * proper checkbox functionality; set the proper dependencies.
-         */
-        allFilesCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == allFilesCheckBox) {
-                    // Turn on all checkboxes if Select All is on
-                    if (allFilesCheckBox.isSelected()) {
-                        makeFileCheckBox.setSelected(true);
-                        testFixtureCheckBox.setSelected(true);
-                        unitTestCheckBox.setSelected(true);
-                    }
-
-                    // If Select All is turned off, turn off all other checkboxes
-                    else {
-                        makeFileCheckBox.setSelected(false);
-                        testFixtureCheckBox.setSelected(false);
-                        unitTestCheckBox.setSelected(false);
-                    }
-                }
-            }
-        });
-
-        makeFileCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == makeFileCheckBox) {
-                    if (!makeFileCheckBox.isSelected()) {
-                        allFilesCheckBox.setSelected(false);
-                    }
-                }
-            }
-        });
-
-        testFixtureCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == testFixtureCheckBox) {
-                    if (!testFixtureCheckBox.isSelected()) {
-                        allFilesCheckBox.setSelected(false);
-                    }
-                }
-            }
-        });
-
-        unitTestCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == unitTestCheckBox) {
-                    if (!unitTestCheckBox.isSelected()) {
-                        allFilesCheckBox.setSelected(false);
-                    }
-                }
-            }
-        });
-
     }
 
-   /** public static void main(String[] args) {
+    public static void main (String[] args)
+    {
         JFrame frame = new JFrame("Unit Test Generator Tool");
-        com.swengGUI.OutputGenerator output_gen = new com.swengGUI.OutputGenerator();
-        /*
+        /**
          * Changes the default theme of JFileChooser
-        end comment here
+         */
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         frame.setContentPane(new BrowseGUI().mainPanel);
@@ -374,5 +373,7 @@ public class BrowseGUI {
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null); //this should center the app
-    } */
+    }
+
+
 }
