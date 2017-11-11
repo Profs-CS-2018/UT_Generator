@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dd0032b1-4db5-4dbb-9686-047122d6aa08" name="Default" comment="Adding functionality to Add Button action listener.&#10;Please read comments for better understanding.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/swengGUI/Parser.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/swengGUI/ParserCPP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/swengGUI/ParserH.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/swengGUI/ParserI.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/swengGUI/ParserO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/UT_Generator_Tool/com/swengGUI/BrowseGUI.class" afterPath="$PROJECT_DIR$/out/production/UT_Generator_Tool/com/swengGUI/BrowseGUI.class" />
+    <list default="true" id="dd0032b1-4db5-4dbb-9686-047122d6aa08" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="UT_Generator.iws" />
@@ -627,7 +621,7 @@
       <workItem from="1510326197145" duration="5236000" />
       <workItem from="1510332567103" duration="9864000" />
       <workItem from="1510438566761" duration="1598000" />
-      <workItem from="1510441583965" duration="124000" />
+      <workItem from="1510441583965" duration="288000" />
     </task>
     <task id="LOCAL-00001" summary="Hello class updated.">
       <created>1508527426685</created>
@@ -748,11 +742,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510341323468</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Adding functionality to Add Button action listener.&#10;Please read comments for better understanding.">
+      <created>1510441906966</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1510441906967</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25842000" />
+    <option name="totallyTimeSpent" value="26006000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="776" extended-state="6" />
